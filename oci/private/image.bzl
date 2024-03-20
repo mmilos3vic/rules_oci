@@ -78,6 +78,7 @@ If `group/gid` is not specified, the default group and supplementary groups of t
     "variant": attr.string(doc = "The variant of the specified CPU architecture. eg: `v6`, `v7`, `v8`. See: https://github.com/opencontainers/image-spec/blob/main/image-index.md#platform-variants for more."),
     "labels": attr.label(doc = "A file containing a dictionary of labels. Each line should be in the form `name=value`.", allow_single_file = True),
     "annotations": attr.label(doc = "A file containing a dictionary of annotations. Each line should be in the form `name=value`.", allow_single_file = True),
+    "created": attr.label(doc = "A file containing image creation time in \"%Y-%m-%dT%H:%M:%S%:z\" format", allow_single_file = True),
     "_image_sh": attr.label(default = "image.sh", allow_single_file = True),
     "_windows_constraint": attr.label(default = "@platforms//os:windows"),
     # Workaround for https://github.com/google/go-containerregistry/issues/1513
@@ -115,7 +116,7 @@ def _oci_image_impl(ctx):
         is_executable = True,
         substitutions = {
             "{{registry_impl}}": registry.registry_info.launcher.path,
-            "{{crane_path}}": crane.crane_info.binary.path,
+            "{{crane_path}}": crane.crane_info.binary.path, 
             "{{jq_path}}": jq.jqinfo.bin.path,
             "{{empty_tar}}": ctx.file._empty_tar.path,
             "{{output}}": output.path,
@@ -162,6 +163,10 @@ def _oci_image_impl(ctx):
     if ctx.attr.annotations:
         args.add(ctx.file.annotations.path, format = "--annotations-file=%s")
         inputs.append(ctx.file.annotations)
+
+    if ctx.attr.created: 
+        args.add(ctx.file.created.path, format = "--created-file=%s")
+        inputs.append(ctx.file.created)
 
     if ctx.attr.user:
         args.add(ctx.attr.user, format = "--user=%s")

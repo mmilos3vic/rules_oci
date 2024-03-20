@@ -84,6 +84,7 @@ oci_image(
 | <a id="oci_image_rule-user"></a>user |  The <code>username</code> or <code>UID</code> which is a platform-specific structure that allows specific control over which user the process run as. This acts as a default value to use when the value is not specified when creating a container. For Linux based systems, all of the following are valid: <code>user</code>, <code>uid</code>, <code>user:group</code>, <code>uid:gid</code>, <code>uid:group</code>, <code>user:gid</code>. If <code>group/gid</code> is not specified, the default group and supplementary groups of the given <code>user/uid</code> in <code>/etc/passwd</code> from the container are applied.   | String | optional | <code>""</code> |
 | <a id="oci_image_rule-variant"></a>variant |  The variant of the specified CPU architecture. eg: <code>v6</code>, <code>v7</code>, <code>v8</code>. See: https://github.com/opencontainers/image-spec/blob/main/image-index.md#platform-variants for more.   | String | optional | <code>""</code> |
 | <a id="oci_image_rule-workdir"></a>workdir |  Sets the current working directory of the <code>entrypoint</code> process in the container. This value acts as a default and may be replaced by a working directory specified when creating a container.   | String | optional | <code>""</code> |
+| created   | Image creation time in "%Y-%m-%dT%H:%M:%S%:z" format | String | optional |  <code>""</code>
 
 
 <a id="oci_image"></a>
